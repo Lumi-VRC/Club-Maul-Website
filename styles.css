@@ -235,6 +235,9 @@ main {
   z-index: 1;
   pointer-events: none;
 }
+.hero:has(.hero-bg)::after {
+  background: none;
+}
 .hero-bg {
   position: absolute;
   inset: -2%;
