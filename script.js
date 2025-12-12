@@ -5,8 +5,8 @@
   const imageDir = "img/mainpage/bg1";
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imageDir}?ref=${branch}`;
   const swapMs = 5000;
-  const heroA = document.querySelector(".hero-bg-a");
-  const heroB = document.querySelector(".hero-bg-b");
+  const heroA = document.querySelector(".page-bg-a");
+  const heroB = document.querySelector(".page-bg-b");
 
   if (!heroA || !heroB) return;
 
