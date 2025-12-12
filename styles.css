@@ -105,6 +105,7 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
   padding: clamp(1.5rem, 3vw, 1.75rem);
+  min-height: clamp(260px, 50vh, 420px);
   border-radius: 1.125rem;
 }
 .hero::after {
