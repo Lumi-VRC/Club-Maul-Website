@@ -13,7 +13,7 @@
     <div class="topbar-inner">
       <div class="brand-row">
         <div class="logo">
-          <span class="logo-dot" aria-hidden="true"></span>
+          <img src="img/icon.webp" alt="" class="logo-icon" aria-hidden="true">
           <span>Club Maul</span>
         </div>
       </div>
@@ -79,12 +79,16 @@
     <div class="divider">
       <h2>What are hunts?</h2>
     </div>
-  </main>
 
-  <div id="hunts" class="hunts-bg-section">
-    <div class="page-bg page-bg-c"></div>
-    <div class="page-bg page-bg-d is-hidden"></div>
-  </div>
+    <section id="hunts" class="hero hero-hunts">
+      <div class="hero-bg hero-bg-c"></div>
+      <div class="hero-bg hero-bg-d is-hidden"></div>
+      <div class="hero-content">
+        <h1>Hunts</h1>
+        <p>Experience the thrill of the hunt in VRChat.</p>
+      </div>
+    </section>
+  </main>
 
   <footer>
     2025 Club Maul — Made with curiosity and teamwork.
@@ -136,9 +140,9 @@
         });
       }
 
-      // Hunts background section
-      const bgC = document.querySelector(".page-bg-c");
-      const bgD = document.querySelector(".page-bg-d");
+      // Second hero (hunts section)
+      const bgC = document.querySelector(".hero-bg-c");
+      const bgD = document.querySelector(".hero-bg-d");
       
       const readyHunts = () => {
         if (window.clubmaulHuntsImages?.length) {
