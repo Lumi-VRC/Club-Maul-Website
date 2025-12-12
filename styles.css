@@ -262,7 +262,8 @@ footer {
   .topbar {
     height: var(--nav-height);
   }
-  .topbar:hover {
+  .topbar:hover,
+  .topbar.is-expanded {
     height: auto;
     min-height: var(--nav-height-expanded);
   }
@@ -272,7 +273,8 @@ footer {
     padding: 0;
     flex-wrap: wrap;
   }
-  .topbar:hover .nav-links {
+  .topbar:hover .nav-links,
+  .topbar.is-expanded .nav-links {
     height: auto;
     opacity: 1;
     padding: 0.5rem 0 0.75rem;

@@ -95,6 +95,35 @@
   </footer>
   <script src="script.js"></script>
   <script>
+    // Mobile header toggle
+    (function() {
+      const topbar = document.querySelector('.topbar');
+      const brandRow = document.querySelector('.brand-row');
+      if (!topbar || !brandRow) return;
+      
+      const isMobile = () => window.matchMedia('(max-width: 720px)').matches || 
+                           (window.matchMedia('(max-height: 720px)').matches && window.matchMedia('(orientation: portrait)').matches);
+      
+      const toggleHeader = (e) => {
+        if (!isMobile()) return;
+        e.preventDefault();
+        e.stopPropagation();
+        topbar.classList.toggle('is-expanded');
+      };
+      
+      brandRow.addEventListener('click', toggleHeader);
+      
+      // Close header when clicking outside on mobile
+      document.addEventListener('click', (e) => {
+        if (isMobile() && topbar.classList.contains('is-expanded')) {
+          if (!topbar.contains(e.target)) {
+            topbar.classList.remove('is-expanded');
+          }
+        }
+      });
+    })();
+  </script>
+  <script>
     (function () {
       const swapMs = 5000;
 
