@@ -263,10 +263,19 @@ footer {
     height: var(--nav-height);
   }
   .topbar:hover {
-    height: var(--nav-height-expanded);
+    height: auto;
+    min-height: var(--nav-height-expanded);
   }
   .topbar .nav-links {
+    height: 0;
+    opacity: 0;
+    padding: 0;
     flex-wrap: wrap;
+  }
+  .topbar:hover .nav-links {
+    height: auto;
+    opacity: 1;
+    padding: 0.5rem 0 0.75rem;
   }
 }
 
