@@ -67,21 +67,8 @@
       </div>
     </section>
 
-    <section class="team-member-cards">
-      <article class="card team-member-card" id="senior-card">
-        <div class="team-member-card-bg team-member-card-bg-a"></div>
-        <div class="team-member-card-bg team-member-card-bg-b is-hidden"></div>
-        <div class="team-member-card-content">
-          <h2>Senior</h2>
-        </div>
-      </article>
-      <article class="card team-member-card" id="assistant-card">
-        <div class="team-member-card-bg team-member-card-bg-c"></div>
-        <div class="team-member-card-bg team-member-card-bg-d is-hidden"></div>
-        <div class="team-member-card-content">
-          <h2>Assistant</h2>
-        </div>
-      </article>
+    <section class="team-member-cards" id="assistant-cards-container">
+      <!-- Assistant cards will be dynamically generated here -->
     </section>
   </main>
 
@@ -197,20 +184,48 @@
     })();
   </script>
   <script>
-    // Load senior and assistant images
+    // Load assistant cards from subfolders
     (function() {
       const category = 'beast';
       const swapMs = 5000;
+      const container = document.querySelector('#assistant-cards-container');
+      if (!container) return;
       
-      const loadMemberImages = async (memberType, bgA, bgB) => {
-        const owner = "Lumi-VRC";
-        const repo = "Club-Maul-Website";
-        const branch = "main";
-        const imageDir = `img/${category}/assistants/${memberType}`;
-        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imageDir}?ref=${branch}`;
+      const owner = "Lumi-VRC";
+      const repo = "Club-Maul-Website";
+      const branch = "main";
+      const assistantsDir = `img/${category}/assistants`;
+      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${assistantsDir}?ref=${branch}`;
+      
+      const createCard = (folderName, cardIndex) => {
+        const card = document.createElement('article');
+        card.className = 'card team-member-card';
+        card.id = `assistant-card-${cardIndex}`;
+        
+        const bgA = document.createElement('div');
+        bgA.className = 'team-member-card-bg team-member-card-bg-a';
+        const bgB = document.createElement('div');
+        bgB.className = 'team-member-card-bg team-member-card-bg-b is-hidden';
+        
+        const content = document.createElement('div');
+        content.className = 'team-member-card-content';
+        const title = document.createElement('h2');
+        title.textContent = folderName;
+        content.appendChild(title);
+        
+        card.appendChild(bgA);
+        card.appendChild(bgB);
+        card.appendChild(content);
+        
+        return { card, bgA, bgB };
+      };
+      
+      const loadImagesForFolder = async (folderName, bgA, bgB, card) => {
+        const imageDir = `${assistantsDir}/${encodeURIComponent(folderName)}`;
+        const folderApiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imageDir}?ref=${branch}`;
         
         try {
-          const res = await fetch(apiUrl, {
+          const res = await fetch(folderApiUrl, {
             headers: { Accept: "application/vnd.github.v3+json" },
           });
           if (!res.ok) throw new Error(`GitHub API ${res.status}`);
@@ -227,7 +242,10 @@
                 : `${item.download_url}?raw=1`
             );
           
-          if (!images.length || !bgA || !bgB) return;
+          if (!images.length) {
+            card.style.display = 'none';
+            return;
+          }
           
           const setBg = (el, url) => {
             el.style.backgroundImage = `url(${url})`;
@@ -249,19 +267,31 @@
             useA = !useA;
           }, swapMs);
         } catch (err) {
-          console.warn(`Could not load ${memberType} images for ${category}`, err);
+          console.warn(`Could not load images for ${folderName}`, err);
+          card.style.display = 'none';
         }
       };
       
-      // Load senior images
-      const seniorBgA = document.querySelector('#senior-card .team-member-card-bg-a');
-      const seniorBgB = document.querySelector('#senior-card .team-member-card-bg-b');
-      loadMemberImages('seniors', seniorBgA, seniorBgB);
-      
-      // Load assistant images
-      const assistantBgA = document.querySelector('#assistant-card .team-member-card-bg-c');
-      const assistantBgB = document.querySelector('#assistant-card .team-member-card-bg-d');
-      loadMemberImages('assistants', assistantBgA, assistantBgB);
+      // Fetch list of assistant folders
+      fetch(apiUrl, {
+        headers: { Accept: "application/vnd.github.v3+json" },
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+          return res.json();
+        })
+        .then((data) => {
+          const folders = data.filter((item) => item.type === "dir");
+          
+          folders.forEach((folder, index) => {
+            const { card, bgA, bgB } = createCard(folder.name, index);
+            container.appendChild(card);
+            loadImagesForFolder(folder.name, bgA, bgB, card);
+          });
+        })
+        .catch((err) => {
+          console.warn(`Could not load assistant folders for ${category}`, err);
+        });
     })();
   </script>
   <script>

@@ -4,7 +4,7 @@
   const branch = "main";
 
   const fetchImages = async (imageDir) => {
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imageDir}?ref=${branch}`;
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imageDir}?ref=${branch}`;
     try {
       const res = await fetch(apiUrl, {
         headers: { Accept: "application/vnd.github.v3+json" },
@@ -57,9 +57,9 @@
     if (bg2Images.length) {
       await preload(bg2Images);
       window.clubmaulHuntsImages = bg2Images;
-      window.dispatchEvent(
+    window.dispatchEvent(
         new CustomEvent("clubmaul:huntsImagesReady", { detail: { images: bg2Images } })
-      );
+    );
     }
   })();
 })();
