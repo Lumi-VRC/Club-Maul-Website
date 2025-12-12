@@ -52,8 +52,10 @@
 
   <main>
     <section class="hero">
+      <div class="hero-bg hero-bg-a"></div>
+      <div class="hero-bg hero-bg-b is-hidden"></div>
       <div class="hero-content">
-        <h1>Hello world</h1>
+        <h1>@Loveseal</h1>
       </div>
     </section>
   </main>
@@ -62,6 +64,77 @@
     2025 Club Maul — Made with curiosity and teamwork.
   </footer>
   <script src="../script.js"></script>
+  <script>
+    // Load category images for hero background
+    (function() {
+      const category = 'hosting';
+      const swapMs = 5000;
+      const bgA = document.querySelector('.hero-bg-a');
+      const bgB = document.querySelector('.hero-bg-b');
+      
+      if (!bgA || !bgB) return;
+      
+      const setBg = (el, url) => {
+        el.style.backgroundImage = `url(${url})`;
+      };
+      
+      const loadCategoryImages = async () => {
+        const owner = "Lumi-VRC";
+        const repo = "Club-Maul-Website";
+        const branch = "main";
+        const imageDir = `img/${category}`;
+        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imageDir}?ref=${branch}`;
+        
+        try {
+          const res = await fetch(apiUrl, {
+            headers: { Accept: "application/vnd.github.v3+json" },
+          });
+          if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+          const data = await res.json();
+          const images = data
+            .filter(
+              (item) =>
+                item.type === "file" &&
+                /\.(png|jpe?g|gif|webp|avif)$/i.test(item.name) &&
+                !item.name.includes('bg/')
+            )
+            .map((item) =>
+              item.download_url.includes("?")
+                ? `${item.download_url}&raw=1`
+                : `${item.download_url}?raw=1`
+            );
+          
+          if (!images.length) {
+            bgA.style.backgroundImage = 'url(../img/mainpage/cards/banneranim.webp)';
+            bgA.classList.remove('is-hidden');
+            return;
+          }
+          
+          let index = 0;
+          let useA = true;
+          setBg(bgA, images[0]);
+          bgA.classList.remove('is-hidden');
+          if (images.length === 1) return;
+          
+          setInterval(() => {
+            index = (index + 1) % images.length;
+            const incoming = useA ? bgB : bgA;
+            const outgoing = useA ? bgA : bgB;
+            setBg(incoming, images[index]);
+            incoming.classList.remove('is-hidden');
+            outgoing.classList.add('is-hidden');
+            useA = !useA;
+          }, swapMs);
+        } catch (err) {
+          console.warn(`Could not load ${category} images`, err);
+          bgA.style.backgroundImage = 'url(../img/mainpage/cards/banneranim.webp)';
+          bgA.classList.remove('is-hidden');
+        }
+      };
+      
+      loadCategoryImages();
+    })();
+  </script>
   <script>
     // Mobile header toggle
     (function() {
