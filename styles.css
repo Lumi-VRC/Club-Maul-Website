@@ -255,20 +255,17 @@ footer {
   font-size: 0.9rem;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 720px), (max-height: 720px) and (orientation: portrait) {
   body {
-    padding-top: calc(var(--nav-height) + 2.25rem);
+    padding-top: calc(var(--nav-height-expanded) + 0.75rem);
   }
   .topbar {
-    height: auto;
+    height: var(--nav-height);
   }
   .topbar:hover {
-    height: auto;
+    height: var(--nav-height-expanded);
   }
   .topbar .nav-links {
-    height: auto;
-    opacity: 1;
-    padding: 0.5rem 0 0.75rem;
     flex-wrap: wrap;
   }
 }
