@@ -2,10 +2,9 @@
   const owner = "Lumi-VRC";
   const repo = "Club-Maul-Website";
   const branch = "main";
-  const imageDir = "img/mainpage/bg1";
-  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imageDir}?ref=${branch}`;
 
-  const fetchImages = async () => {
+  const fetchImages = async (imageDir) => {
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imageDir}?ref=${branch}`;
     try {
       const res = await fetch(apiUrl, {
         headers: { Accept: "application/vnd.github.v3+json" },
@@ -24,7 +23,7 @@
             : `${item.download_url}?raw=1`
         );
     } catch (err) {
-      console.warn("Could not load hero images", err);
+      console.warn(`Could not load images from ${imageDir}`, err);
       return [];
     }
   };
@@ -43,13 +42,25 @@
     );
 
   (async () => {
-    const images = await fetchImages();
-    if (!images.length) return;
-    await preload(images);
-    window.clubmaulHeroImages = images;
-    window.dispatchEvent(
-      new CustomEvent("clubmaul:heroImagesReady", { detail: { images } })
-    );
+    // Fetch bg1 images for first hero
+    const bg1Images = await fetchImages("img/mainpage/bg1");
+    if (bg1Images.length) {
+      await preload(bg1Images);
+      window.clubmaulHeroImages = bg1Images;
+      window.dispatchEvent(
+        new CustomEvent("clubmaul:heroImagesReady", { detail: { images: bg1Images } })
+      );
+    }
+
+    // Fetch bg2 images for hunts hero
+    const bg2Images = await fetchImages("img/mainpage/bg2");
+    if (bg2Images.length) {
+      await preload(bg2Images);
+      window.clubmaulHuntsImages = bg2Images;
+      window.dispatchEvent(
+        new CustomEvent("clubmaul:huntsImagesReady", { detail: { images: bg2Images } })
+      );
+    }
   })();
 })();
 

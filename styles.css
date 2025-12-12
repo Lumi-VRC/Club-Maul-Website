@@ -193,6 +193,24 @@ footer,
   color: var(--muted);
   line-height: 1.5;
 }
+.divider {
+  position: relative;
+  z-index: 2;
+  margin: clamp(4rem, 8vw, 6rem) 0;
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  text-align: center;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, transparent, rgba(56, 189, 248, 0.05), transparent);
+}
+.divider h2 {
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
+}
 footer {
   text-align: center;
   color: var(--muted);

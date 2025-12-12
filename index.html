@@ -75,6 +75,19 @@
         <p>Photography.. at 60 frames per second!</p>
       </article>
     </section>
+
+    <div class="divider">
+      <h2>What are hunts?</h2>
+    </div>
+
+    <section id="hunts" class="hero hero-hunts">
+      <div class="hero-bg hero-bg-c"></div>
+      <div class="hero-bg hero-bg-d is-hidden"></div>
+      <div class="hero-content">
+        <h1>Hunts</h1>
+        <p>Experience the thrill of the hunt in VRChat.</p>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -84,26 +97,20 @@
   <script>
     (function () {
       const swapMs = 5000;
-      const bgA =
-        document.querySelector(".page-bg-a") ||
-        document.querySelector(".hero-bg-a");
-      const bgB =
-        document.querySelector(".page-bg-b") ||
-        document.querySelector(".hero-bg-b");
-
-      if (!bgA || !bgB) return;
 
       const setBg = (el, url) => {
         el.style.backgroundImage = `url(${url})`;
       };
 
-      const start = (images) => {
-        if (!Array.isArray(images) || !images.length) return;
+      const startHero = (bgA, bgB, images, eventName) => {
+        if (!bgA || !bgB || !Array.isArray(images) || !images.length) return;
+        
         let index = 0;
         let useA = true;
         setBg(bgA, images[0]);
         bgA.classList.remove("is-hidden");
         if (images.length === 1) return;
+        
         setInterval(() => {
           index = (index + 1) % images.length;
           const incoming = useA ? bgB : bgA;
@@ -115,17 +122,39 @@
         }, swapMs);
       };
 
-      const ready = () => {
+      // First hero (home section)
+      const bgA = document.querySelector(".page-bg-a") || document.querySelector(".hero-bg-a");
+      const bgB = document.querySelector(".page-bg-b") || document.querySelector(".hero-bg-b");
+      
+      const readyFirst = () => {
         if (window.clubmaulHeroImages?.length) {
-          start(window.clubmaulHeroImages);
+          startHero(bgA, bgB, window.clubmaulHeroImages);
           return true;
         }
         return false;
       };
 
-      if (!ready()) {
+      if (!readyFirst()) {
         window.addEventListener("clubmaul:heroImagesReady", (e) => {
-          start(e.detail.images);
+          startHero(bgA, bgB, e.detail.images);
+        });
+      }
+
+      // Second hero (hunts section)
+      const bgC = document.querySelector(".hero-bg-c");
+      const bgD = document.querySelector(".hero-bg-d");
+      
+      const readyHunts = () => {
+        if (window.clubmaulHuntsImages?.length) {
+          startHero(bgC, bgD, window.clubmaulHuntsImages);
+          return true;
+        }
+        return false;
+      };
+
+      if (!readyHunts()) {
+        window.addEventListener("clubmaul:huntsImagesReady", (e) => {
+          startHero(bgC, bgD, e.detail.images);
         });
       }
     })();
