@@ -347,6 +347,36 @@ footer,
 .mission-card p:last-child {
   margin-bottom: 0;
 }
+.team-member-card {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(200px, 30vh, 300px);
+  background: var(--card);
+}
+.team-member-card-bg {
+  position: absolute;
+  inset: -2%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.7) saturate(0.95);
+  transition: opacity 800ms ease;
+  z-index: 0;
+}
+.team-member-card-bg.is-hidden {
+  opacity: 0;
+}
+.team-member-card-content {
+  position: relative;
+  z-index: 3;
+  padding: clamp(1rem, 2.4vw, 1.25rem);
+}
+.team-member-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
 .divider {
   position: relative;
   z-index: 2;

@@ -66,6 +66,23 @@
         <h1>@Ember_Starfire</h1>
       </div>
     </section>
+
+    <section class="team-member-cards">
+      <article class="card team-member-card" id="senior-card">
+        <div class="team-member-card-bg team-member-card-bg-a"></div>
+        <div class="team-member-card-bg team-member-card-bg-b is-hidden"></div>
+        <div class="team-member-card-content">
+          <h2>Senior</h2>
+        </div>
+      </article>
+      <article class="card team-member-card" id="assistant-card">
+        <div class="team-member-card-bg team-member-card-bg-c"></div>
+        <div class="team-member-card-bg team-member-card-bg-d is-hidden"></div>
+        <div class="team-member-card-content">
+          <h2>Mudpup</h2>
+        </div>
+      </article>
+    </section>
   </main>
 
   <footer>
@@ -171,6 +188,74 @@
       };
       
       loadCategoryImages();
+    })();
+  </script>
+  <script>
+    // Load senior and assistant images
+    (function() {
+      const category = 'hr';
+      const swapMs = 5000;
+      
+      const loadMemberImages = async (memberType, bgA, bgB) => {
+        const owner = "Lumi-VRC";
+        const repo = "Club-Maul-Website";
+        const branch = "main";
+        const imageDir = `img/${category}/assistants/${memberType}`;
+        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${imageDir}?ref=${branch}`;
+        
+        try {
+          const res = await fetch(apiUrl, {
+            headers: { Accept: "application/vnd.github.v3+json" },
+          });
+          if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+          const data = await res.json();
+          const images = data
+            .filter(
+              (item) =>
+                item.type === "file" &&
+                /\.(png|jpe?g|gif|webp|avif)$/i.test(item.name)
+            )
+            .map((item) =>
+              item.download_url.includes("?")
+                ? `${item.download_url}&raw=1`
+                : `${item.download_url}?raw=1`
+            );
+          
+          if (!images.length || !bgA || !bgB) return;
+          
+          const setBg = (el, url) => {
+            el.style.backgroundImage = `url(${url})`;
+          };
+          
+          let index = 0;
+          let useA = true;
+          setBg(bgA, images[0]);
+          bgA.classList.remove('is-hidden');
+          if (images.length === 1) return;
+          
+          setInterval(() => {
+            index = (index + 1) % images.length;
+            const incoming = useA ? bgB : bgA;
+            const outgoing = useA ? bgA : bgB;
+            setBg(incoming, images[index]);
+            incoming.classList.remove('is-hidden');
+            outgoing.classList.add('is-hidden');
+            useA = !useA;
+          }, swapMs);
+        } catch (err) {
+          console.warn(`Could not load ${memberType} images for ${category}`, err);
+        }
+      };
+      
+      // Load senior images
+      const seniorBgA = document.querySelector('#senior-card .team-member-card-bg-a');
+      const seniorBgB = document.querySelector('#senior-card .team-member-card-bg-b');
+      loadMemberImages('seniors', seniorBgA, seniorBgB);
+      
+      // Load assistant images
+      const assistantBgA = document.querySelector('#assistant-card .team-member-card-bg-c');
+      const assistantBgB = document.querySelector('#assistant-card .team-member-card-bg-d');
+      loadMemberImages('assistants', assistantBgA, assistantBgB);
     })();
   </script>
   <script>
