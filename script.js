@@ -23,7 +23,7 @@
             item.type === "file" &&
             /\.(png|jpe?g|gif|webp|avif)$/i.test(item.name)
         )
-        .map((item) => item.download_url);
+        .map((item) => `${location.origin}/${imageDir}/${encodeURIComponent(item.name)}`);
     } catch (err) {
       console.warn("Could not load hero images", err);
       return [];
@@ -75,4 +75,3 @@
     startRotation(images);
   })();
 })();
-
