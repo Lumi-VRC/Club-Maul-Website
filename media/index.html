@@ -38,14 +38,22 @@
       </div>
       <nav class="nav-links" aria-label="Primary">
         <a href="../">Home</a>
-        <a href="../beast/">Beast Team</a>
-        <a href="../photography/">Photography Team</a>
-        <a href="../hosting/">Hosting Team</a>
-        <a href="../security/">Security Team</a>
-        <a href="../writing/">Writing Team</a>
-        <a href="../hr/">HR Team</a>
-        <a href="../creative/">Creative Team</a>
-        <a href="../media/">Media Team</a>
+        <div class="dropdown">
+          <button class="dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+            Meet the Teams
+            <span class="dropdown-arrow">▼</span>
+          </button>
+          <div class="dropdown-menu">
+            <a href="../beast/">Beast Team</a>
+            <a href="../photography/">Photography Team</a>
+            <a href="../hosting/">Hosting Team</a>
+            <a href="../security/">Security Team</a>
+            <a href="../writing/">Writing Team</a>
+            <a href="../hr/">HR Team</a>
+            <a href="../creative/">Creative Team</a>
+            <a href="../media/">Media Team</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -64,6 +72,36 @@
     2025 Club Maul — Made with curiosity and teamwork.
   </footer>
   <script src="../script.js"></script>
+  <script>
+    // Dropdown toggle for mobile
+    (function() {
+      const dropdowns = document.querySelectorAll('.dropdown');
+      dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        if (!toggle) return;
+        
+        const isMobile = () => window.matchMedia('(max-width: 720px)').matches || 
+                             (window.matchMedia('(max-height: 720px)').matches && window.matchMedia('(orientation: portrait)').matches);
+        
+        toggle.addEventListener('click', (e) => {
+          if (isMobile()) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropdown.classList.toggle('active');
+          }
+        });
+        
+        // Close dropdown when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+          if (isMobile() && dropdown.classList.contains('active')) {
+            if (!dropdown.contains(e.target)) {
+              dropdown.classList.remove('active');
+            }
+          }
+        });
+      });
+    })();
+  </script>
   <script>
     // Load category images for hero background
     (function() {
