@@ -12,7 +12,7 @@
 body {
   margin: 0;
   font-family: "Inter", system-ui, -apple-system, sans-serif;
-  background: var(--bg);
+  background: linear-gradient(145deg, #0b1222, #0f172a 45%, #0b1222);
   color: var(--text);
   padding-top: calc(var(--nav-height-expanded) + 0.75rem); /* room for expanded bar */
 }
@@ -113,7 +113,7 @@ main {
 .hero {
   position: relative;
   overflow: hidden;
-  background: url("img/mainpage/cards/banneranim.webp") center/cover no-repeat;
+  background: var(--bg);
   border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
   padding: clamp(1.5rem, 3vw, 1.75rem);
@@ -129,7 +129,17 @@ main {
   pointer-events: none;
 }
 .hero-bg {
-  display: none;
+  position: absolute;
+  inset: -2%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.7) saturate(0.95);
+  transition: opacity 800ms ease;
+  z-index: 0;
+}
+.hero-bg.is-hidden {
+  opacity: 0;
 }
 .hero-web {
   position: absolute;

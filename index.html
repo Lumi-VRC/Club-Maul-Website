@@ -33,6 +33,8 @@
 
   <main>
     <section id="home" class="hero">
+      <div class="hero-bg hero-bg-a"></div>
+      <div class="hero-bg hero-bg-b is-hidden"></div>
       <div class="hero-web" aria-hidden="true"></div>
       <div class="hero-content">
         <h1>Welcome to Club Maul</h1>
@@ -80,5 +82,54 @@
     2025 Club Maul — Made with curiosity and teamwork.
   </footer>
   <script src="script.js"></script>
+  <script>
+    (function () {
+      const swapMs = 5000;
+      const bgA =
+        document.querySelector(".page-bg-a") ||
+        document.querySelector(".hero-bg-a");
+      const bgB =
+        document.querySelector(".page-bg-b") ||
+        document.querySelector(".hero-bg-b");
+
+      if (!bgA || !bgB) return;
+
+      const setBg = (el, url) => {
+        el.style.backgroundImage = `url(${url})`;
+      };
+
+      const start = (images) => {
+        if (!Array.isArray(images) || !images.length) return;
+        let index = 0;
+        let useA = true;
+        setBg(bgA, images[0]);
+        bgA.classList.remove("is-hidden");
+        if (images.length === 1) return;
+        setInterval(() => {
+          index = (index + 1) % images.length;
+          const incoming = useA ? bgB : bgA;
+          const outgoing = useA ? bgA : bgB;
+          setBg(incoming, images[index]);
+          incoming.classList.remove("is-hidden");
+          outgoing.classList.add("is-hidden");
+          useA = !useA;
+        }, swapMs);
+      };
+
+      const ready = () => {
+        if (window.clubmaulHeroImages?.length) {
+          start(window.clubmaulHeroImages);
+          return true;
+        }
+        return false;
+      };
+
+      if (!ready()) {
+        window.addEventListener("clubmaul:heroImagesReady", (e) => {
+          start(e.detail.images);
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
