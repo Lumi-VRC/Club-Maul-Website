@@ -10,6 +10,10 @@
 
   if (!heroA || !heroB) return;
 
+  const toSiteUrl = (path) => `${window.location.origin}/${path}`;
+  const toRawUrl = (path) =>
+    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
+
   const fetchImages = async () => {
     try {
       const res = await fetch(apiUrl, {
@@ -23,26 +27,33 @@
             item.type === "file" &&
             /\.(png|jpe?g|gif|webp|avif)$/i.test(item.name)
         )
-        .map((item) =>
-          item.download_url.includes("?")
-            ? `${item.download_url}&raw=1`
-            : `${item.download_url}?raw=1`
-        );
+        .map((item) => ({
+          site: toSiteUrl(item.path),
+          raw: toRawUrl(item.path),
+        }));
     } catch (err) {
       console.warn("Could not load hero images", err);
       return [];
     }
   };
 
-  const preload = (urls) =>
+  const preload = (entries) =>
     Promise.all(
-      urls.map(
-        (url) =>
+      entries.map(
+        (entry) =>
           new Promise((resolve) => {
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            img.onload = img.onerror = () => resolve();
-            img.src = url;
+            const tryRaw = () => {
+              const imgRaw = new Image();
+              imgRaw.crossOrigin = "anonymous";
+              imgRaw.onload = () => resolve(entry.raw);
+              imgRaw.onerror = () => resolve(null);
+              imgRaw.src = entry.raw;
+            };
+            const imgSite = new Image();
+            imgSite.crossOrigin = "anonymous";
+            imgSite.onload = () => resolve(entry.site);
+            imgSite.onerror = tryRaw;
+            imgSite.src = entry.site;
           })
       )
     );
@@ -75,9 +86,16 @@
 
   (async () => {
     const images = await fetchImages();
-    if (!images.length) return;
-    await preload(images);
-    startRotation(images);
+    if (!images.length) {
+      console.warn("No hero images found in", imageDir);
+      return;
+    }
+    const usable = (await preload(images)).filter(Boolean);
+    if (!usable.length) {
+      console.warn("Hero images failed to load");
+      return;
+    }
+    startRotation(usable);
   })();
 })();
 
