@@ -114,27 +114,24 @@ main {
 }
 .hero {
   position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  background: url("img/mainpage/cards/banneranim.webp") center/cover no-repeat;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-  padding: clamp(1.5rem, 3vw, 1.75rem);
-  min-height: clamp(260px, 50vh, 420px);
-  border-radius: 1.125rem;
-  z-index: 2;
   background-color: #0f172a;
 }
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.14), rgba(94, 234, 212, 0.08));
+  background: rgba(0, 0, 0, 0.4);
   z-index: 1;
   pointer-events: none;
 }
 .hero-bg {
   position: absolute;
-  inset: -2%;
+  inset: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -147,7 +144,11 @@ main {
 }
 .hero-content {
   position: relative;
-  z-index: 3;
+  z-index: 2;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 3vw, 1.75rem);
+  text-align: center;
 }
 main,
 footer,
@@ -194,22 +195,20 @@ footer,
   line-height: 1.5;
 }
 .divider {
+  background-color: #1e1e1e;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   z-index: 2;
-  margin: clamp(4rem, 8vw, 6rem) 0;
-  padding: clamp(3rem, 6vw, 5rem) 0;
-  text-align: center;
-  border-top: 2px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-  background: linear-gradient(180deg, transparent, rgba(56, 189, 248, 0.05), transparent);
 }
 .divider h2 {
   margin: 0;
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
   color: var(--text);
-  text-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
 }
 footer {
   text-align: center;
