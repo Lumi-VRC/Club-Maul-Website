@@ -112,7 +112,7 @@ main {
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, rgba(56, 189, 248, 0.14), rgba(94, 234, 212, 0.08));
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
 }
 .hero-bg {
@@ -123,10 +123,24 @@ main {
   background-repeat: no-repeat;
   filter: brightness(0.7) saturate(0.95);
   transition: opacity 800ms ease;
-  z-index: 1;
+  z-index: 0;
 }
 .hero-bg.is-hidden {
   opacity: 0;
+}
+.hero-web {
+  position: absolute;
+  inset: 8% auto auto 60%;
+  width: min(280px, 40vw);
+  aspect-ratio: 1 / 1;
+  background-image: url("img/mainpage/cards/banneranim.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.5;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+  z-index: 2;
 }
 .hero-content {
   position: relative;
