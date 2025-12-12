@@ -267,6 +267,30 @@ footer,
   font-size: clamp(1.9rem, 3vw, 2.3rem);
   letter-spacing: -0.04em;
 }
+.hero-subtext {
+  margin: 1rem 0 0;
+  font-size: clamp(0.875rem, 1.2vw, 1rem);
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 100%;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+.hero-subtext::-webkit-scrollbar {
+  width: 6px;
+}
+.hero-subtext::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+.hero-subtext::-webkit-scrollbar-thumb {
+  background: rgba(255, 140, 66, 0.4);
+  border-radius: 3px;
+}
+.hero-subtext::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 140, 66, 0.6);
+}
 .hero p {
   margin: 0;
   color: var(--text);
