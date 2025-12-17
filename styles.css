@@ -323,6 +323,15 @@ footer,
   background: var(--card);
   grid-column: span 2;
 }
+.card-wide-4 {
+  grid-column: span 4;
+}
+.card-wide-4 p {
+  margin-bottom: 1rem;
+}
+.card-wide-4 p:last-child {
+  margin-bottom: 0;
+}
 .card-link::before {
   content: "";
   position: absolute;
@@ -469,6 +478,9 @@ footer {
   }
   .card-link {
     grid-column: span 1;
+  }
+  .card-wide-4 {
+    grid-column: 1 / -1;
   }
 }
 
