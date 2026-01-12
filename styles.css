@@ -361,9 +361,26 @@ footer,
 }
 .card-title-only {
   text-align: center;
+  position: relative;
 }
 .card-title-only h2 {
   margin-bottom: 0;
+}
+.card-title-only::before,
+.card-title-only::after {
+  content: "▼";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: var(--muted);
+  opacity: 0.6;
+}
+.card-title-only::before {
+  left: clamp(1rem, 2.4vw, 1.25rem);
+}
+.card-title-only::after {
+  right: clamp(1rem, 2.4vw, 1.25rem);
 }
 .card-link::before {
   content: "";
