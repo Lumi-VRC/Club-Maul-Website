@@ -73,7 +73,7 @@
         <h2>Photography Team</h2>
         <p>Capturing the spirit of our events and projects in crisp detail.</p>
       </article>
-      <article class="card card-full-width card-title-only">
+      <article class="card card-full-width card-title-only" id="meet-the-team-card">
         <h2>Meet the Team</h2>
       </article>
     </section>
@@ -260,7 +260,7 @@
           
           if (!images.length) {
             card.style.display = 'none';
-            return;
+            return false; // Card is not visible
           }
           
           const setBg = (el, url) => {
@@ -271,7 +271,7 @@
           let useA = true;
           setBg(bgA, images[0]);
           bgA.classList.remove('is-hidden');
-          if (images.length === 1) return;
+          if (images.length === 1) return true; // Card is visible
           
           setInterval(() => {
             index = (index + 1) % images.length;
@@ -282,9 +282,12 @@
             outgoing.classList.add('is-hidden');
             useA = !useA;
           }, swapMs);
+          
+          return true; // Card is visible
         } catch (err) {
           console.warn(`Could not load images for ${folderName}`, err);
           card.style.display = 'none';
+          return false; // Card is not visible
         }
       };
       
@@ -292,21 +295,46 @@
       fetch(apiUrl, {
         headers: { Accept: "application/vnd.github.v3+json" },
       })
-        .then((res) => {
+        .then(async (res) => {
           if (!res.ok) throw new Error(`GitHub API ${res.status}`);
-          return res.json();
-        })
-        .then((data) => {
+          const data = await res.json();
           const folders = data.filter((item) => item.type === "dir");
           
-          folders.forEach((folder, index) => {
+          if (folders.length === 0) {
+            // Hide "Meet the Team" card if no assistant folders exist
+            const meetTeamCard = document.getElementById('meet-the-team-card');
+            if (meetTeamCard) {
+              meetTeamCard.style.display = 'none';
+            }
+            return;
+          }
+          
+          // Load all cards and track which ones are visible
+          const cardPromises = folders.map((folder, index) => {
             const { card, bgA, bgB } = createCard(folder.name, index);
             container.appendChild(card);
-            loadImagesForFolder(folder.name, bgA, bgB, card);
+            return loadImagesForFolder(folder.name, bgA, bgB, card);
           });
+          
+          // Wait for all cards to load, then check if any are visible
+          const results = await Promise.all(cardPromises);
+          const hasVisibleCards = results.some(visible => visible === true);
+          
+          // Hide "Meet the Team" card if no assistant cards are visible
+          if (!hasVisibleCards) {
+            const meetTeamCard = document.getElementById('meet-the-team-card');
+            if (meetTeamCard) {
+              meetTeamCard.style.display = 'none';
+            }
+          }
         })
         .catch((err) => {
           console.warn(`Could not load assistant folders for ${category}`, err);
+          // Hide "Meet the Team" card on error
+          const meetTeamCard = document.getElementById('meet-the-team-card');
+          if (meetTeamCard) {
+            meetTeamCard.style.display = 'none';
+          }
         });
     })();
   </script>
