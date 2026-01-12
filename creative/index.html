@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
+  <div class="mouse-glow" id="mouse-glow"></div>
   <div class="page-bg page-bg-a"></div>
   <div class="page-bg page-bg-b is-hidden"></div>
   <header class="topbar">
@@ -445,6 +446,37 @@
           closeModal();
         }
       });
+    })();
+  </script>
+  <script>
+    // Mouse glow effect
+    (function() {
+      const glow = document.getElementById('mouse-glow');
+      if (!glow) return;
+      
+      let mouseX = 0;
+      let mouseY = 0;
+      let glowX = 0;
+      let glowY = 0;
+      const smoothness = 0.15;
+      
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        glow.classList.add('active');
+      });
+      
+      function animate() {
+        glowX += (mouseX - glowX) * smoothness;
+        glowY += (mouseY - glowY) * smoothness;
+        
+        glow.style.left = `${glowX}px`;
+        glow.style.top = `${glowY}px`;
+        
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
     })();
   </script>
 </body>

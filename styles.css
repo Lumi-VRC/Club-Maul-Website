@@ -31,6 +31,21 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
   will-change: transform;
 }
+.mouse-glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -4;
+  transform: translate(-50%, -50%);
+  transition: opacity 200ms ease;
+  opacity: 0;
+}
+.mouse-glow.active {
+  opacity: 1;
+}
 .page-bg.is-hidden { opacity: 0; }
 .topbar {
   position: fixed;
