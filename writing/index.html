@@ -69,7 +69,7 @@
     </section>
 
     <section class="grid">
-      <article class="card card-full-width">
+      <article class="card card-full-width card-clickable">
         <h2>Writing Team</h2>
         <p>LORE! Lots and lots and lots of lore!</p>
       </article>
@@ -86,6 +86,17 @@
   <footer>
     2025 Club Maul — Made with curiosity and teamwork.
   </footer>
+
+  <!-- Writing Team Modal -->
+  <div id="writing-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="writing-modal-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close modal">×</button>
+      <h2 id="writing-modal-title" class="modal-title">Writing Team</h2>
+      <p class="modal-text">LORE! Lots and lots and lots of lore!</p>
+    </div>
+  </div>
+
   <script src="../script.js"></script>
   <script>
     // Dropdown toggle for mobile
@@ -369,6 +380,43 @@
       }
       
       animate();
+    })();
+  </script>
+  <script>
+    // Writing Team Modal
+    (function() {
+      const writingCard = document.querySelector('.card-clickable');
+      const modal = document.getElementById('writing-modal');
+      if (!writingCard || !modal) return;
+      
+      const closeBtn = modal.querySelector('.modal-close');
+      const overlay = modal.querySelector('.modal-overlay');
+      
+      const openModal = () => {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      };
+      
+      const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+      
+      writingCard.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+      
+      closeBtn.addEventListener('click', closeModal);
+      overlay.addEventListener('click', closeModal);
+      
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+          closeModal();
+        }
+      });
     })();
   </script>
 </body>
