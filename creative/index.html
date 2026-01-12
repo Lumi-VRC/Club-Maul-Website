@@ -319,6 +319,48 @@
       });
     })();
   </script>
+  <script>
+    // Parallax effect for background images
+    (function() {
+      const parallaxElements = document.querySelectorAll('.page-bg, .hero-bg');
+      if (!parallaxElements.length) return;
+      
+      let mouseX = 0.5;
+      let mouseY = 0.5;
+      let targetX = 0.5;
+      let targetY = 0.5;
+      const parallaxIntensity = 0.02; // Adjust this to control parallax strength
+      const smoothness = 0.1; // Smoothing factor for animation
+      
+      // Track mouse position
+      document.addEventListener('mousemove', (e) => {
+        targetX = e.clientX / window.innerWidth;
+        targetY = e.clientY / window.innerHeight;
+      });
+      
+      // Smooth animation loop
+      function animate() {
+        mouseX += (targetX - mouseX) * smoothness;
+        mouseY += (targetY - mouseY) * smoothness;
+        
+        parallaxElements.forEach(el => {
+          // Skip hidden elements
+          if (el.classList.contains('is-hidden')) return;
+          
+          // Calculate offset (inverted movement)
+          const offsetX = (mouseX - 0.5) * parallaxIntensity * 100;
+          const offsetY = (mouseY - 0.5) * parallaxIntensity * 100;
+          
+          // Apply transform
+          el.style.transform = `translate(${offsetX}%, ${offsetY}%)`;
+        });
+        
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+    })();
+  </script>
 </body>
 </html>
 
