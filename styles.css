@@ -308,11 +308,12 @@ footer,
   border-radius: 0.9rem;
   padding: clamp(1rem, 2.4vw, 1.25rem);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
-  transition: transform 150ms ease, border-color 150ms ease;
+  transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 }
 .card:hover {
   transform: translateY(-2px);
   border-color: rgba(239, 68, 68, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24), 0 0 20px rgba(239, 68, 68, 0.2), 0 0 40px rgba(239, 68, 68, 0.1);
 }
 .card-link {
   display: block;
@@ -437,6 +438,97 @@ footer {
   color: var(--muted);
   padding: clamp(1.5rem, 4vw, 2.5rem) 0 clamp(3rem, 6vw, 3.5rem);
   font-size: 0.9rem;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, visibility 200ms ease;
+  pointer-events: none;
+}
+
+.modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  z-index: 1001;
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  max-width: min(600px, 90vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transform: scale(0.95);
+  transition: transform 200ms ease;
+}
+
+.modal.is-open .modal-content {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: var(--text);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+  font-family: inherit;
+  padding: 0;
+}
+
+.modal-close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--accent);
+}
+
+.modal-title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--text);
+  padding-right: 3rem;
+}
+
+.modal-text {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+}
+
+.card-clickable {
+  cursor: pointer;
 }
 
 @media (max-width: 720px), (max-height: 720px) and (orientation: portrait) {

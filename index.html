@@ -89,9 +89,9 @@
         <h2>Writing Team</h2>
         <p>LORE! Lots and lots and lots of lore!</p>
       </article>
-      <article id="hr" class="card">
+      <article id="hr" class="card card-clickable">
         <h2>HR Team</h2>
-        <p>Supporting members, onboarding newcomers, and nurturing our group's culture.</p>
+        <p>Our team is the friendly first faces new members get to meet when coming into the club... </p>
       </article>
       <article id="creative" class="card">
         <h2>Creative Team</h2>
@@ -143,6 +143,17 @@
   <footer>
     2025 Club Maul — Made with curiosity and teamwork.
   </footer>
+
+  <!-- HR Team Modal -->
+  <div id="hr-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="hr-modal-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close modal">×</button>
+      <h2 id="hr-modal-title" class="modal-title">HR Team</h2>
+      <p class="modal-text">We operate a lot of backend tasks to help organize and consolidate various amounts of information for our different teams. We also handle the finer details so our teams can focus on providing for our members without fail.</p>
+    </div>
+  </div>
+
   <script src="script.js"></script>
   <script>
     // Dropdown toggle for mobile
@@ -266,6 +277,44 @@
           startHero(bgC, bgD, e.detail.images);
         });
       }
+    })();
+  </script>
+  <script>
+    // HR Team Modal
+    (function() {
+      const hrCard = document.querySelector('#hr.card-clickable');
+      const modal = document.getElementById('hr-modal');
+      const closeBtn = modal.querySelector('.modal-close');
+      const overlay = modal.querySelector('.modal-overlay');
+      
+      if (!hrCard || !modal) return;
+      
+      const openModal = () => {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      };
+      
+      const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+      
+      hrCard.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+      
+      closeBtn.addEventListener('click', closeModal);
+      overlay.addEventListener('click', closeModal);
+      
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+          closeModal();
+        }
+      });
     })();
   </script>
 </body>
