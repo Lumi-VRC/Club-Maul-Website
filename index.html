@@ -69,9 +69,9 @@
     </section>
 
     <section class="grid">
-      <article id="beast" class="card">
+      <article id="beast" class="card card-clickable">
         <h2>Beast Team</h2>
-        <p>The scare actors that make your heart race!</p>
+        <p>The Beast Team is made up of dozens of scare actors. Every member brings a unique style of hunting to the table... </p>
       </article>
       <article id="photography" class="card">
         <h2>Photography Team</h2>
@@ -151,6 +151,16 @@
       <button class="modal-close" aria-label="Close modal">×</button>
       <h2 id="hr-modal-title" class="modal-title">HR Team</h2>
       <p class="modal-text">Our team members are the friendly first faces new members get to meet when coming into the club. We operate a lot of backend tasks to help organize and consolidate various amounts of information for our different teams. We also handle the finer details so our teams can focus on providing for our members without fail.</p>
+    </div>
+  </div>
+
+  <!-- Beast Team Modal -->
+  <div id="beast-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="beast-modal-title">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close modal">×</button>
+      <h2 id="beast-modal-title" class="modal-title">Beast Team</h2>
+      <p class="modal-text">The Beast Team is made up of dozens of scare actors. Every member brings a unique style of hunting to the table: abstract horrors, feral beasts, talkative villains, and everything in-between. Our Beasts help each other (and the aspiring Trial Beasts, too!) with all aspects of the creative process. It's a big team effort here, and we work hard to put on a terrifying show at every single hunt.</p>
     </div>
   </div>
 
@@ -302,6 +312,44 @@
       };
       
       hrCard.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+      
+      closeBtn.addEventListener('click', closeModal);
+      overlay.addEventListener('click', closeModal);
+      
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+          closeModal();
+        }
+      });
+    })();
+  </script>
+  <script>
+    // Beast Team Modal
+    (function() {
+      const beastCard = document.querySelector('#beast.card-clickable');
+      const modal = document.getElementById('beast-modal');
+      const closeBtn = modal.querySelector('.modal-close');
+      const overlay = modal.querySelector('.modal-overlay');
+      
+      if (!beastCard || !modal) return;
+      
+      const openModal = () => {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      };
+      
+      const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+      
+      beastCard.addEventListener('click', (e) => {
         e.preventDefault();
         openModal();
       });
