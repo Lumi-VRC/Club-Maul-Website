@@ -546,6 +546,23 @@ footer {
 
 .card-clickable {
   cursor: pointer;
+  position: relative;
+}
+.card-clickable::after {
+  content: "→";
+  position: absolute;
+  right: clamp(1rem, 2.4vw, 1.25rem);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: var(--muted);
+  opacity: 0.6;
+  transition: opacity 150ms ease, transform 150ms ease;
+  pointer-events: none;
+}
+.card-clickable:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(2px);
 }
 
 @media (max-width: 720px), (max-height: 720px) and (orientation: portrait) {
