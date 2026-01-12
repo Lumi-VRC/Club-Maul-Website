@@ -335,6 +335,21 @@ footer,
 .card-wide-4 p:last-child {
   margin-bottom: 0;
 }
+.card-full-width {
+  grid-column: 1 / -1;
+}
+.card-full-width p {
+  margin-bottom: 1rem;
+}
+.card-full-width p:last-child {
+  margin-bottom: 0;
+}
+.card-title-only {
+  text-align: center;
+}
+.card-title-only h2 {
+  margin-bottom: 0;
+}
 .card-link::before {
   content: "";
   position: absolute;
