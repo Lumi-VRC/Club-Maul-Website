@@ -345,9 +345,9 @@
           // Skip hidden elements
           if (el.classList.contains('is-hidden')) return;
           
-          // Calculate offset (inverted movement)
-          const offsetX = (mouseX - 0.5) * parallaxIntensity * 100;
-          const offsetY = (mouseY - 0.5) * parallaxIntensity * 100;
+          // Calculate offset (moves away from mouse)
+          const offsetX = -(mouseX - 0.5) * parallaxIntensity * 100;
+          const offsetY = -(mouseY - 0.5) * parallaxIntensity * 100;
           
           // Apply transform
           el.style.transform = `translate(${offsetX}%, ${offsetY}%)`;
